@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+</head>
+<body onload="init();" >
+	<h1 id="print"></h1>
+	<p id="info"></p>
+	<div>
+		<canvas id="canvas" style=" display:block; margin:auto;  width:25%; height:50vh; border: 1px solid #000000;"></canvas>
+	</div>
+	<img id="img" src="img/google-play-badge.svg" width="25" height="25" >
+
+	<form onsubmit="return false;">
+		<input id="x" type="number" name="x" placeholder="Enter x coordinate" onchange="placeImg();">
+		<input id="y" type="number" name="y" placeholder="Enter y coordinate" onchange="placeImg();">
+	</form>
+
+	<script type="text/javascript">	
+			var canvas = document.getElementById("canvas");
+			var contxt = canvas.getContext("2d");
+		function init(){
+			canvas = document.getElementById("canvas");
+			contxt = canvas.getContext("2d");
+			//FIRST MOUSE EVENT
+			/*canvas.onmousemove = function(e){     // e is the event
+				alert("mark! mouse over canvas! " + e);
+			}*/
+			//SECOND MOUSE EVENT
+			canvas.addEventListener("mousedown", mouseDown, false);
+		}
+
+		function mouseDown(event){
+			
+			var x = 0;
+			var y = 0;
+			alert("you clicked on x = " + x + " y = " + y);
+			var img = document.getElementById("img");
+			alert("MARK " + img);
+	      	//contxt.drawImage( img, x, y , 40, 10);
+	      	contxt.beginPath();
+			contxt.moveTo(x,y);
+			contxt.lineTo(canvas.width/4,canvas.height/2); //(x,y)
+			contxt.lineWidth = 1;
+			contxt.stroke();
+		}
+
+		//DRAWLING A LINE
+		contxt.beginPath();
+		contxt.moveTo(0,0);
+		contxt.lineTo(canvas.width,canvas.height); //(x,y)
+		contxt.lineWidth = 1;
+		contxt.stroke();
+		//another line
+		contxt.beginPath();
+		contxt.moveTo(canvas.width,0);
+		contxt.lineTo(0,canvas.height);
+		contxt.stroke();
+
+
+		//GETING INFORMATION AND MOUSE COORDINATES
+		function getMousePos(canvas, evt) {
+	        var rect = canvas.getBoundingClientRect();
+	        return {
+	          x: evt.clientX - rect.left,
+	          y: evt.clientY - rect.top
+	        };
+	      }
+
+	      canvas.addEventListener('mousemove', function(evt) {
+	        var mousePos = getMousePos(canvas, evt);
+	        var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+			document.getElementById("print").innerHTML = message;        
+			document.getElementById('info').innerHTML = "Canvas height: " + canvas.height + " Canvas width: " + canvas.width;
+	      }, false);
+
+	      //DRAWLING A CIRCLE
+	      contxt.beginPath();
+	      contxt.arc(canvas.width/2,canvas.height/2,10,0,2*Math.PI); //(x,y,diameter, NOT SURE, NOT SURE)
+	      contxt.stroke();      
+
+	      //TEXT
+	      contxt.font = "12px Arial";
+	      contxt.fillText("VividCustoms in the works", 10, 10); //('text to be printed' , x , y)
+
+
+	      //GETTING IMG ON CANVAS
+	      function placeImg(){
+	      	var x = document.getElementById('x').value;
+	      	var y = document.getElementById('y').value;
+	      	if( x < 0 || y < 0){
+	      		x = 0;
+	      		y = 0;
+	      	}	
+	      	var img = document.getElementById("img");
+	      	contxt.drawImage( img, x, y , 40, 10); //(image, x, y , img.width, img.height) canvas will start drawling at the top left corner of the image
+	      }
+
+
+	      //MOUSE EVENT
+
+    </script>	
+
+
+</body>
+</html>
