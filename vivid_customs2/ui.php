@@ -93,7 +93,7 @@
                 <li ><a  data-toggle="tab" href="#textSection">Text Design</a></li>
                 <li ><a  data-toggle="tab" href="#productSection">Product</a></li>
                 <li ><a  data-toggle="tab" href="#priceSection">Price</a></li>
-                <li ><a  data-toggle="tab" href="#shareSection" onclick="sharePreview();">Share</a></li>
+                <li ><a  data-toggle="tab" href="#shareSection" onclick="document.getElementById('sharePreview').src = front.toDataURL();">Share</a></li>
                 <li ><a   data-toggle="tab" href="#saveSection">Save</a></li>
             </ul>
         </div>
@@ -316,11 +316,7 @@
                     <i class="fa fa-instagram" aria-hidden="true" style="font-size: 5vh;"></i>
                     <i class="fa fa-envelope-o" aria-hidden="true" style="font-size: 5vh;"></i>
                     <div id="sharePreviewCase" style="margin: auto; width: 87px; height: 81px; background-size: cover; background-position: center center;"><img style="display: block; margin: auto; width: 60%; height: 80%; position: relative; top: 10% " id="sharePreview" src=""></div>
-                    <script type="text/javascript">
-                        function sharePreview(){
-                            document.getElementById('sharePreview').src = front.toDataURL();
-                        }
-                    </script>
+<!--SHARE PREVIEW GOES HERE$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
                 </div>
                 <div id="saveSection" class="tab-pane fade">
                     <h3>Look at your previous designs!</h3>
