@@ -1,18 +1,41 @@
 <?php
-
-     $data = explode('*',file_get_contents("php://input"));	
-     $route = dirname(__FILE__).'/user';
+	include("config.php");
+    session_start();
+   
+   if($_SERVER["REQUEST_METHOD"] == "POST") {      
+      
+     $data = explode('*',file_get_contents("php://input"));	  
+     if (isset($_SESSION['login_user'])) {
+          $login_session =$_SESSION['login_user'];	
+      }
+      else
+      {
+      	  if (empty($_SESSION['Guest'])) {
+      	  	 $ses_sql = mysqli_query($db,"Select Quantity From consecutive where Name = 'Guest'");	   
+			 $row = mysqli_fetch_array($ses_sql,MYSQLI_ASSOC);		   
+			 $login_session = "Guest". sprintf("%06d", $row['Quantity']);
+			 $_SESSION['Guest'] = $login_session;
+			 $ses_sql = mysqli_query($db,"Update consecutive set Quantity = Quantity + 1 where Name = 'Guest'");	
+      	  }  
+      	  else
+      	  {
+      	  	$login_session = $_SESSION['Guest'];
+      	  }   	
+      } 
+     
+     $route = dirname(__FILE__).'/'.$login_session;
      if (!is_dir($route)) {
-	   mkdir($route);
-	}
-	/*else
-	{
-		array_map('unlink', glob($route));
-	}*/
+	   mkdir($route,0777,true);
+	 }
 
-    //rmdir($absolute_path.'/user');    
+	 $ses_sql = mysqli_query($db,"Select Quantity From consecutive where Name = 'Order'");	   
+	 $row = mysqli_fetch_array($ses_sql,MYSQLI_ASSOC);		   
+	 $route = $route.'/'.$login_session.'_'.sprintf("%06d", $row['Quantity']);		   
+	 //if (!is_dir($route)) {
+	   mkdir($route,0777,true);
+	//}  
+	 $ses_sql = mysqli_query($db,"Update consecutive set Quantity = Quantity + 1 where Name = 'Order'");	
 
-	
 
      for ($i=0; $i < count($data) -1 ; $i++) {     
            		
@@ -22,30 +45,42 @@
 	    $name = "";        
 	   	switch ($i) {
 	   		case 0:
-	   			$name = "front";
+	   			$name = $login_session.'_'.sprintf("%06d", $row['Quantity'])."_front";
 	   			createFile($decodedData,1,$name,$route);  	
 	   			break;
 	   		case 1:
-	   			$name = "right";
+	   			$name = $login_session.'_'.sprintf("%06d", $row['Quantity'])."_right";
 	   			createFile($decodedData,1,$name,$route);  	
 	   			break;
 			case 2:
-					$name = "back";
+					$name = $login_session.'_'.sprintf("%06d", $row['Quantity'])."_back";
 					createFile($decodedData,1,$name,$route);  	
 	   			break;
 	   		case 3:
-					$name = "left";
+					$name = $login_session.'_'.sprintf("%06d", $row['Quantity'])."_left";
 					createFile($decodedData,1,$name,$route);  	
 	   			break;
 	   		default:
-	   			$name = "user".rand(1000,9999);	   	
+	   			$name = $login_session.rand(1000,9999);	   	
 	   			createFile($decodedData,0,$name,$route);  			
 	   			break;
 	   	}	   	           	   
     }    
    
-	$file = 'file.json';
+	$file = $login_session.'_'.sprintf("%06d", $row['Quantity']).'.json';
 	file_put_contents($route.'/'.$file, $data[count($data)-1]);
+
+
+	//print_r('The desing "'.$login_session.'_'.sprintf("%06d", $row['Quantity']). '" was save successful.'); 
+	print_r($login_session.'_'.sprintf("%06d", $row['Quantity'])); 
+	
+	//return 'The desing "'.$login_session.'_'.sprintf("%06d", $row['Quantity']). '" was save successful.';
+     
+   }
+
+
+
+     
 
         
 	function createFile($decodedData,$resolution,$filename,$route)
@@ -65,15 +100,15 @@
 
 function setImageResolution($imagePath,$filename,$route)
 {	
-    $imagick = new Imagick(realpath($imagePath));  
+    $imagick = new \Imagick(realpath($imagePath));  
 	$imagick->setImageUnits(Imagick::RESOLUTION_PIXELSPERINCH);	
 	$imagick->resampleImage  (300,300,imagick::FILTER_UNDEFINED,1);
 
-	$combined   =   new Imagick();
+	/*$combined   =   new Imagick();
 	$combined->addImage( $imagick );
 	$combined->setImageFormat("pdf");   
 	file_put_contents ($route.'/'.$filename.".pdf", $combined); 	
-	unlink($route.'/'.$filename.".png");	
+	unlink($route.'/'.$filename.".png");*/	
 		
 	}
 ?>
