@@ -1,3 +1,6 @@
+<?php
+   include('session.php');
+?>
 <html>
 <head>
     <title>ui</title>
@@ -20,7 +23,9 @@
     <link href="https://fonts.googleapis.com/css?family=Niconne" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/fonts.css">
     <style type="text/css">
-        /*TODO make sure this image hover rule only applies to certain images*/
+        body{
+            
+        }
         img:hover{
             background-color: #eeeeee;
             border: 1px solid #000000;
@@ -29,60 +34,21 @@
             border: 1px solid #eeeeee;
             background: none !important;
         }
-        /*top bar*/
-        #topBar{ height: 5vh !important;  }
-        #topBar img{ height: 5vh !important; }
-        /*top nav bar*/
-        .nav{
-            border: none;
-            background-color: #696973;
-        }
-        .nav li{
-            border: none;
-        }
-        li.active a{
-            background-color: red !important;
-        }
-        .nav a{                                       
-            color: #ffffff !important;
-            margin: 0 !important;
-            padding-top: 1vh;
-            padding-bottom: 1vh;
-            font-size: 12;
-            border: none !important;
-            outline: none;
-        }
-        .nav a:hover{
-            background-color: red !important;
-        }     
-        /*color selection*/
-        .colorRow{
-            margin: 0;
-            padding: 0;
-        }
-        .colorColumn{
-            margin: 0;
-            padding: 0;
-        }
-        .colorItem{
-            width: 100%;
-            height: 2%;
-        }     
-        .tab-pane{
-            border: none !important;
-        }
     </style>
     <!--CSS-->
     <link rel="stylesheet" type="text/css" href="css/main.css">
-    <!--to replace style tags on this page-->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+
 <!--START NEW PAGE-->
 <div class="page-wrapper">
 <div class="container" style="width: 1360px !important; height: 900px !important;">
     <!--TOP BAR-->
     <div>
+        <style type="text/css">
+            #topBar{ height: 5vh !important;  }
+            #topBar img{ height: 5vh !important; }
+        </style>
         <div id="topBar">
             <div class="row">
             <div class="col-sm-1">
@@ -100,21 +66,51 @@
         <!--START SIDE BAR-->
         <div class="col-sm-1" >   
             <style type="text/css">
-
+                .nav{
+                    border: none;
+                    background-color: #696973;
+                }
+                .nav li{
+                    border: none;
+                    
+                }
+                li.active a{
+                    background-color: red !important;
+                }
+                .nav a{
+                    color: #ffffff !important;
+                    /*margin-top: 1vh;
+                    margin-bottom: 1vh;*/
+                    margin: 0 !important;
+                    padding-top: 1vh;
+                    padding-bottom: 1vh;
+                    font-size: 12;
+                    border: none !important;
+                    outline: none;
+                }
+                .nav a:hover{
+                    background-color: red !important;
+                }
             </style>
             <ul class="nav nav-tabs nav-stacked" style="height: 90%;">
                 <li class="active" ><a   data-toggle="tab" href="#addArt">Add Art</a></li>
                 <li ><a  data-toggle="tab" href="#textSection">Text Design</a></li>
                 <li ><a  data-toggle="tab" href="#productSection">Product</a></li>
                 <li ><a  data-toggle="tab" href="#priceSection">Price</a></li>
-                <li ><a  data-toggle="tab" href="#shareSection" onclick="document.getElementById('sharePreview').src = front.toDataURL();">Share</a></li>
-                <li ><a   data-toggle="tab" href="#saveSection">Save</a></li>
+                <li ><a  data-toggle="tab" href="#shareSection" onclick="document.getElementById('sharePreview').src = front.toDataURL();">Share</a></li>                
+                <li ><a   data-toggle="tab" href="#saveSection" onclick="uploadEx()">Save</a></li>
             </ul>
         </div>
         <!--END  SIDE BAR-->
         <!--START TAB CONTENT-->
         <div class="col-sm-3" style="height: 90%;">
-            <div class="tab-content" >
+            <style type="text/css">
+                .tab-pane{
+                    border: none;
+                    margin-top: 0;
+                }
+            </style>
+            <div class="tab-content">
                 <div id="addArt" class="tab-pane fade in active">
                     <h3>Add Art</h3>
                     <p>Have your own image, logo or artwork?</p>
@@ -125,7 +121,6 @@
                     <script type="text/javascript">
                         function  imgPreviewCanvas(){
                             var c=document.getElementById("previewCanvas");
-                            
                             var ctx=c.getContext("2d");
                            
                             var img=document.getElementById("imgPreview");
@@ -144,9 +139,25 @@
                     <button onclick="removeItem();">Remove</button>
                     <!--COLOR SECTION-->
                         <style type="text/css">
-
+                            #colorRow{
+                                width: 100%;
+                                font-size: 3px;
+                            }
+                            .colorColumn{
+                                margin: 0;
+                                padding: 0;
+                            }
+                            .colorGroup{
+                                margin: 0 !important;
+                                padding: 0 !important;
+                            }
+                            .colorItem{
+                                margin: auto;
+                                width: 70%;
+                                height: 2%;
+                            }
                         </style>
-                        <div class="row" id="colorRow" style="font-size: 3px !important;"> 
+                        <div class="row" id="colorRow"> 
                             <div class="colorColumn col-sm-4" id="">   
                                 <div class="colorGroup list-group" id="">
                                     <a href="#" class="list-group-item active"><div class="colorItem" style="color: #00ffff; background-color: #00ffff;"   onclick="changeColor(this.innerHTML);">#00ffff</div></a>
@@ -308,16 +319,84 @@
                     <i class="fa fa-twitter" aria-hidden="true" style="font-size: 5vh;"></i>
                     <i class="fa fa-instagram" aria-hidden="true" style="font-size: 5vh;"></i>
                     <i class="fa fa-envelope-o" aria-hidden="true" style="font-size: 5vh;"></i>
-                    <form post="email.php" method="post">
-                        <input type="hidden" name="shirtURL">
-                        <input type="hidden" name="imageURL">
-                        <button type="submit" name="submit" class="fa fa-envelope-o" aria-hidden="true"></button>
-                        <!--<input type="submit" name="submit" class="fa fa-envelope-o" aria-hidden="true">-->
-                    </form>
                     <div id="sharePreviewCase" style="margin: auto; width: 87px; height: 81px; background-size: cover; background-position: center center;"><img style="display: block; margin: auto; width: 60%; height: 80%; position: relative; top: 10% " id="sharePreview" src=""></div>
+<!--SHARE PREVIEW GOES HERE$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$-->
                 </div>
                 <div id="saveSection" class="tab-pane fade">
-                    <h3>Look at your previous designs!</h3>
+                    <h3>Look at your previous designs!</h3> 
+                    <select id="mydesings" name="mydesings" onChange="LoadImages();">
+                        <option value="Select the desing">Select the desing</option>
+                    </select> 
+                    <br>
+                      <div id="frontSavedDesing" style="margin: auto; width: 87px; height: 81px; background-size: cover; background-position: center center;">
+                        <img style="display: block; margin: auto; width: 60%; height: 80%; position: relative; top: 10% " id="frontSavePreview" src="" onclick="LoadDesings()">
+                      </div> 
+                      <div id="rightSavedDesing" style="margin: auto; width: 87px; height: 81px; background-size: cover; background-position: center center;">
+                        <img style="display: block; margin: auto; width: 60%; height: 80%; position: relative; top: 20% " id="rightSavePreview" src=""  onclick="LoadDesings()">
+                      </div> 
+                      <div id="backSavedDesing" style="margin: auto; width: 87px; height: 81px; background-size: cover; background-position: center center;">
+                        <img style="display: block; margin: auto; width: 60%; height: 80%; position: relative; top: 30% " id="backSavePreview" src=""  onclick="LoadDesings()">
+                      </div> 
+                      <div id="leftSavedDesing" style="margin: auto; width: 87px; height: 81px; background-size: cover; background-position: center center;">
+                        <img style="display: block; margin: auto; width: 60%; height: 80%; position: relative; top: 40% " id="leftSavePreview" src=""  onclick="LoadDesings()">
+                      </div> 
+                  <script type="text/javascript">
+                        function LoadImages()
+                        {
+                           //var imgSrc = content.substring(content.indexOf("src=\"")+5,content.indexOf('" '));
+                           
+                            var desing =   document.getElementById("mydesings").value;
+                            var guest = desing.split("_", 1);
+                            
+                            var file = guest+ '/' + desing + '/' + desing;                            
+                              document.getElementById('frontSavePreview').src = file+ '_front.png';
+                              document.getElementById('rightSavePreview').src = file+ '_right.png';
+                              document.getElementById('backSavePreview').src = file+ '_back.png';
+                              document.getElementById('leftSavePreview').src = file+ '_left.png';
+                        }
+
+
+                        function LoadDesings()
+                        {     
+                            var desing =   document.getElementById("mydesings").value;
+                            var guest = desing.split("_", 1);
+                            var file = guest+ '/' + desing + '/' + desing + '.json';
+                           // var file = guest+ '/' + desing + '/' + desing;
+                            //alert(file);
+                            $.ajax({
+                                type:    "GET",
+                                dataType: "JSON",
+                                url:     file ,
+                                success: function(text) {                                         
+                                     //document.getElementById('frontCanvasShirtDesing').style.backgroundImage = "url("+imgSrc+")"; 
+                                     front.loadFromDatalessJSON(text[0], front.renderAll.bind(front), function(o, object) {
+                                     fabric.log(o, object); 
+                                      });
+                                    
+                                     
+
+                                     right.loadFromJSON(text[1], right.renderAll.bind(right), function(o, object) {
+                                     fabric.log(o, object); 
+                                      });
+
+                                     back.loadFromJSON(text[2], back.renderAll.bind(back), function(o, object) {
+                                     fabric.log(o, object); 
+                                      });
+
+                                     left.loadFromJSON(text[3], left.renderAll.bind(left), function(o, object) {
+                                     fabric.log(o, object);         
+                                    
+                                    });                                                                     
+                                    
+                                },
+                                error:   function() {
+                                    alert("error");
+                                }
+
+                            });                             
+                            
+                        }
+                    </script>
                 </div>
             </div>
         </div>
@@ -358,10 +437,9 @@
                                     margin: auto;
                                     top: 10%;
                                 }
-
                             </style>
                             <div class="canvasShirt" id="frontCanvasShirt">
-                                <div id="canvas-wrapper"><canvas id="frontCanvas"></canvas></div>
+                                <div id="canvas-wrapper" ><canvas id="frontCanvas"></canvas></div>
                             </div>
                     <div class="carousel-caption">
                       <p>Front</p>
@@ -433,16 +511,16 @@
         //var canvas = new fabric.Canvas('frontCanvas');
         var additionalpictures = "";
         var canvasCounter = 1;
-        var front = new fabric.Canvas('frontCanvas'); 
-        var right = new fabric.Canvas('rightCanvas');
-        var back = new fabric.Canvas('backCanvas');
-        var left = new fabric.Canvas('leftCanvas'); 
+        var front = new fabric.Canvas('frontCanvas');                
+        var right = new fabric.Canvas('rightCanvas');       
+        var back = new fabric.Canvas('backCanvas');       
+        var left = new fabric.Canvas('leftCanvas');          
         var text = "";
         var color = "#4169e1";
         var strokeColor = "#ff0000";
         var font = 'Ariel'; 
         front.setWidth(document.getElementById('canvas-wrapper').offsetWidth);
-        front.setHeight(document.getElementById('canvas-wrapper').offsetHeight);
+        front.setHeight(document.getElementById('canvas-wrapper').offsetHeight);   
         right.setWidth(document.getElementById('canvas-wrapper').offsetWidth);
         right.setHeight(document.getElementById('canvas-wrapper').offsetHeight);
         back.setWidth(document.getElementById('canvas-wrapper').offsetWidth);
@@ -470,7 +548,6 @@
         var numObjectsRight = 0;
         var numObjectsBack = 0;
         var numObjectsLeft = 0;
-
         //SETTING quantityOfProduct
         function setQuantity(value){
             quantityOfProduct = value;
@@ -565,7 +642,6 @@
                 }
             }
         }
-
         //UPLOADING IMAGE
         function uploadImage(){
             var preview = document.getElementById('imgPreview');
@@ -574,11 +650,9 @@
             reader.onload = function (){
                 preview.src = reader.result;
             }
-
             //SIZING THE IMG PREVIEW BEING UPLOADED
             preview.style.width = "10vw";
             preview.style.height = "10vw";
-
             if(file){
                 preview.src = reader.readAsDataURL(file);
                 imageUploaded = true; //set for pricing purposes
@@ -593,7 +667,6 @@
             var imgSrc = element.src;
             //adding image to canvas
             fabric.Image.fromURL(imgSrc, function(img){
-
                     /*var str = element.src;
                     var n = str.search("data:image");  
                     if (n == -1)
@@ -622,7 +695,6 @@
             }); 
             clipArtAdded = true; //set for pricing purposes
         }
-
         function changeColor(newColor){
             //TEST TEXT DESIGN COLOR CHANGE
             color = newColor;
@@ -667,7 +739,6 @@
         }
         //START TEXT DESIGN SECTION*************************************************************************************************************************************************
         //canvas, text, color, and strokeColor are part of text design and can be found at the top with the other variables
-
         function removeItem(){
             //DECIDING WHICH CANVAS TO REMOVE OBJECT FROM
             switch (canvasCounter){
@@ -747,7 +818,6 @@
             }
             //canvas.add(txt);
         }
-
         //START CURVE CODE*******************************************************************************************************************************************************************
             function curve(){
                 //remove selected item to be replaced
@@ -756,12 +826,10 @@
                 var headingText = []; 
                 var startAngle = -58;
                 var textLength = text.length;
-
                 var r = text.length * 20;//sets distance between letters getTranslationDistance(text);
                 var j = -1; // this will adjust the angle of the letters not the curve
                 var angleInterval = 116/textLength; // arc length (full circle is 360/textlength)
                 for(var iterator=(-textLength/2), i=textLength-1; iterator<textLength/2;iterator++,i--) { 
-
                     var rotation = 90-(startAngle+(i)*angleInterval) ;
                    
                     var letter = new fabric.IText(text[i], {
@@ -805,13 +873,11 @@
                 var headingText = []; 
                 var startAngle = -58;
                 var textLength = text.length;
-
                 var r = text.length * 20;//sets distance between letters getTranslationDistance(text);
                 var j = -1; // this will adjust the angle of the letters not the curve
                 var angleInterval = 116/textLength; // arc length (full circle is 360/textlength)
                 var ltr = 0; //CHANGE get rid of this
                 for(var x=(-textLength/2), i=textLength-1; x<textLength/2;x++,i--) { //CHANGE 1. x to iterator 2. i = textLength -1 3. i--
-
                     var rotation = 90-(startAngle+(i)*angleInterval) ;
                    
                     var letter = new fabric.IText(text[ltr], {
@@ -826,7 +892,6 @@
                     headingText.push(letter);
                     ltr++;
                 }
-
                 //DECIDING WHICH CANVAS TO ADD TOO
                 switch (canvasCounter){
                     case 1:
@@ -860,7 +925,6 @@
                 var headingText = []; 
                 var startAngle = -58;
                 var textLength = text.length;
-
                 var r = text.length * 2;//sets distance between letters getTranslationDistance(text);
                 var j = -1; // this will adjust the angle of the letters not the curve
                 var angleInterval = 360/textLength; // arc length (full circle is 360/textlength)
@@ -911,11 +975,11 @@
                 //SETTING CURRENT PRODUCT IMAGE
                 var imgSrc = content.substring(content.indexOf("src=\"")+5,content.indexOf('" '));
                 document.getElementById('description_image').src = imgSrc;
-                document.getElementById('frontCanvasShirt').style.backgroundImage = "url("+imgSrc+")";
+                document.getElementById('frontCanvasShirt').style.backgroundImage = "url("+imgSrc+")";                 
                 document.getElementById('rightCanvasShirt').style.backgroundImage = "url("+imgSrc+")";
                 document.getElementById('backCanvasShirt').style.backgroundImage = "url("+imgSrc+")";
                 document.getElementById('leftCanvasShirt').style.backgroundImage = "url("+imgSrc+")";
-                document.getElementById('sharePreviewCase').style.backgroundImage = "url("+imgSrc+")";
+                document.getElementById('sharePreviewCase').style.backgroundImage = "url("+imgSrc+")"; 
                 //document.getElementById('canvasShirt').style.backgroundImage = "url("+imgSrc+")";
                 console.log('Image Source: ' + imgSrc + " typeof: " + typeof imgSrc);
                 //TODO CHANGE CODE BELOW, THIS IS FAKE DATA USED FOR DEMO.
@@ -928,30 +992,22 @@
     <!--START SAVE DESIGN SECTION-->    
         <script>
             function saveUpload(){
-
                 additionalpictures += "*" + document.getElementById('previewCanvas').toDataURL("image/png");
-
             }
-
              function uploadEx() {
                         var data = [];
-
                         var frontdatalist = "";                         
                         frontdatalist += front.toDataURL('image/png');            
                         data.push(front);
-
                         var rightdatalist = "";             
                         rightdatalist += right.toDataURL('image/png');
                         data.push(right);
-
                         var backdatalist = "";            
                         backdatalist += back.toDataURL('image/png');
                         data.push(back);
-
                         var leftdatalist = "";            
                         leftdatalist += left.toDataURL('image/png');  
                         data.push(left);
-
                         var $general = frontdatalist;
                             $general += "*" + rightdatalist;
                             $general += "*" + backdatalist;
@@ -961,19 +1017,17 @@
                                 $general += additionalpictures;
                              }
                             
-                       var jsonData = JSON.stringify(data);  
-                       
-
-
-                        $general += "*" + jsonData;           
-                        //saveFile('yourfilename.json', "data:application/json", new Blob([jsonData],{type:""}));          
-                      
-
+                       var jsonData = JSON.stringify(data);                         
+                        $general += "*" + jsonData;  
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function() {             
                           if (xhr.readyState == 4) {
-                            alert(xhr.responseText);               
-                          }
+                            alert('The desing "' + xhr.responseText + '" was save successful');  
+                            var x = document.getElementById("mydesings");
+                            var option = document.createElement("option");
+                            option.text = xhr.responseText;
+                            x.add(option);               
+                          }                         
                         }
                         xhr.open('POST','save_design.php',true);
                         xhr.setRequestHeader('Content-Type', 'application/upload');            
